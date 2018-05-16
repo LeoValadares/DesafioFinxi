@@ -1,35 +1,27 @@
 <template>
   <section class="container">
-    <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
-    <h1 class="title">
-      User
-    </h1>
-    <h2 class="info">
-      {{ user.name }}
-    </h2>
-    <nuxt-link class="button" to="/">
-      Users
-    </nuxt-link>
+    <h1> {{ repoInfo.full_name }} </h1>
+    <h3> {{ repoInfo.description }} </h3>
   </section>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
 
+const fetchRepoInfos = async (repoId) => {
+  let { data } = await axios.get(`/repositories/${repoId}`)
+  return data
+}
+
 export default {
   name: 'id',
-  asyncData ({ params, error }) {
-    return axios.get('/api/users/' + params.id)
-      .then((res) => {
-        return { user: res.data }
-      })
-      .catch((e) => {
-        error({ statusCode: 404, message: 'User not found' })
-      })
+  async asyncData ({ params, error }) {
+    return { repoInfo: await fetchRepoInfos(params.id) }
+    // error({ statusCode: 404, message: 'User not found' })
   },
   head () {
     return {
-      title: `User: ${this.user.name}`
+      title: this.repoInfo.full_name
     }
   }
 }

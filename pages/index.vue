@@ -1,30 +1,40 @@
 <template>
-  <section class="container">
-    <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
-    <h1 class="title">
-      USERS
-    </h1>
-    <ul class="users">
-      <li v-for="(user, index) in users" :key="index" class="user">
-        <nuxt-link :to="{ name: 'id', params: { id: index }}">
-          {{ user.name }}
-        </nuxt-link>
+  <div>
+    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+      <li v-for="repo in repos">
+        {{ repo.name }} {{ repo.stargazers_count }}
+        <nuxt-link class="button" :to="'/' + repo.id">Ver</nuxt-link>
       </li>
     </ul>
-  </section>
+  </div>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
 
+// TODO gerenciar erros de http
+const fetchRepos = async (page = 1) => {
+  try {
+    let { data } = await axios.get(`/search/repositories?q=language:java&sort=stars&order=desc&page=${page}`)
+    return data.items
+  } catch (error) {
+    return []
+  }
+}
+
 export default {
   async asyncData () {
-    let { data } = await axios.get('/api/users')
-    return { users: data }
+    return { repos: await fetchRepos(), currentPage: 1 }
   },
   head () {
     return {
-      title: 'Users'
+      title: 'Repos'
+    }
+  },
+  methods: {
+    loadMore: async function () {
+      this.currentPage++
+      this.repos.push(...await fetchRepos(this.currentPage))
     }
   }
 }

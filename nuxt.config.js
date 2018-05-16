@@ -1,4 +1,7 @@
 module.exports = {
+  plugins: [
+    { src: '~/plugins/infiniteScroll', ssr: false }
+  ],
   /*
   ** Headers of the page
   */
