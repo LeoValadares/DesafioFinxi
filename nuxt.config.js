@@ -1,6 +1,7 @@
 module.exports = {
   plugins: [
-    { src: '~/plugins/infiniteScroll', ssr: false }
+    { src: '~/plugins/infiniteScroll', ssr: false },
+    { src: '~/plugins/vuetify', ssr: false }
   ],
   /*
   ** Headers of the page
