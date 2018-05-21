@@ -1,10 +1,10 @@
 <template>
   <section class="container">
     
-    <h1> {{ repoInfo.full_name }} </h1>
-    <h3> {{ repoInfo.description }} </h3>
+    <h1 class="display-2"> {{ repoInfo.full_name }} </h1>
+    <h3 class="display-1"> {{ repoInfo.description }} </h3>
 
-    <v-container grid-list-md text-xs-center>
+    <v-container grid-list-md text-xs-center class="mt-5">
       <pull-request-list :repo-id="repoInfo.id"></pull-request-list>
     </v-container>
     

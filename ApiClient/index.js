@@ -1,7 +1,6 @@
 import axios from '~/plugins/axios'
 import EventBus from '~/EventBus'
 
-// TODO gerenciar erros de http
 export const fetchRepos = async (page = 1) => {
   let data = await apiCall(`/search/repositories?q=language:java&sort=stars&order=desc&page=${page}`)
   return data.items

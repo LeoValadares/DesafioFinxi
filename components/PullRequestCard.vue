@@ -1,5 +1,5 @@
 <template>
-  <v-card class="text-xs-left" :href="prUrl" target="_blank">
+  <v-card class="text-xs-left" :href="prUrl">
     <!-- pr title -->
     <v-layout row>
       <!-- card title -->
@@ -15,7 +15,7 @@
       <v-flex xs2>
         <v-card-media 
           :src="authorPicUrl" 
-          height="136px"
+          height="132px"
         contain></v-card-media>
       </v-flex>
     </v-layout>
@@ -42,10 +42,6 @@ export default {
 </script>
 
 <style scoped>
-.card__media {
-  border-radius: 50%;
-}
-
 div.flex {
   overflow: hidden;
   word-wrap: break-word;
