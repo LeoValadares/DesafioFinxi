@@ -45,5 +45,10 @@ export default {
 .card__media {
   border-radius: 50%;
 }
+
+div.flex {
+  overflow: hidden;
+  word-wrap: break-word;
+}
 </style>
 

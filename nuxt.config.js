@@ -1,7 +1,9 @@
+const nodeExternals = require('webpack-node-externals')
+
 module.exports = {
   plugins: [
     { src: '~/plugins/infiniteScroll', ssr: false },
-    { src: '~/plugins/vuetify', ssr: false }
+    { src: '~/plugins/vuetify', ssr: false },
   ],
   /*
   ** Headers of the page
@@ -20,7 +22,11 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css', 
+    'vuetify/dist/vuetify.min.css',
+    'material-design-icons-iconfont/dist/material-design-icons.css'
+  ],
   /*
   ** Add axios globally
   */
@@ -37,6 +43,14 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+      }
+
+      if (ctx.isServer) {
+        config.externals = [
+          nodeExternals({
+            whitelist: [/^vuetify/]
+          })
+        ]
       }
     }
   }

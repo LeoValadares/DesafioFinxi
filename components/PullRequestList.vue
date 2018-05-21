@@ -17,17 +17,8 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import { fetchRepoPRs } from '~/ApiClient'
 import PullRequestCard from '~/components/PullRequestCard'
-
-const fetchRepoPRs = async (repoId) => {
-  try {
-    const { data } = await axios.get(`/repositories/${repoId}/pulls`)
-    return data
-  } catch (error) {
-    return null
-  }
-}
 
 export default {
   props: {

@@ -1,52 +1,50 @@
 <template>
-  <div>
-    <nuxt/>
+  <v-app standalone>
+    <v-container fill-height fluid text-xs-center>
+      <section class="container">
+        <nuxt/>
+      </section>
+    </v-container>
     <my-footer/>
-  </div>
+    <!-- sem necessidade de ssr -->
+    <no-ssr>
+      <v-snackbar
+        :timeout="5000"
+        :top="true"
+        :right="true"
+        :multi-line="true"
+        v-model="snackbar">
+        {{ snackText }}
+        <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+      </v-snackbar>
+    </no-ssr>
+  </v-app>
 </template>
 
 <script>
 import MyFooter from '~/components/Footer.vue'
+import NoSSR from 'vue-no-ssr'
+import EventBus from '~/EventBus'
 
 export default {
   components: {
-    MyFooter
+    MyFooter,
+    'no-ssr': NoSSR
+  },
+  data () {
+    return {
+      snackbar: false, // controla visibilidade da snackbar
+      snackText: '' // texto a ser mostrado na snackbar
+    }
+  },
+  created () {
+    EventBus.$on('toastr', this.snackReceived) // recebe evento da snac
+  },
+  methods: {
+    snackReceived (text) {
+      this.snackbar = true
+      this.snackText = text
+    }
   }
 }
 </script>
-
-<style>
-.container
-{
-  margin: 0;
-  width: 100%;
-  padding: 100px 0;
-  text-align: center;
-}
-
-.button, .button:visited
-{
-  display: inline-block;
-  color: black;
-  letter-spacing: 1px;
-  background-color: #fff;
-  border: 2px solid #000;
-  text-decoration: none;
-  text-transform: uppercase;
-  padding: 15px 45px;
-}
-
-.button:hover, .button:focus
-{
-  color: #fff;
-  background-color: #000;
-}
-
-.title
-{
-  color: #000;
-  font-weight: 300;
-  font-size: 2.5em;
-  margin: 0;
-}
-</style>

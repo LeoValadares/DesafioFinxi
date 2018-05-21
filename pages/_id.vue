@@ -12,13 +12,8 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import { fetchRepoInfos } from '~/ApiClient'
 import PullRequestList from '~/components/PullRequestList'
-
-const fetchRepoInfos = async (repoId) => {
-  let { data } = await axios.get(`/repositories/${repoId}`)
-  return data
-}
 
 export default {
   name: 'id',
@@ -27,7 +22,6 @@ export default {
   },
   async asyncData ({ params, error }) {
     return { repoInfo: await fetchRepoInfos(params.id) }
-    // error({ statusCode: 404, message: 'User not found' })
   },
   head () {
     return {
